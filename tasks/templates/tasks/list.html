@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Lista{% endblock %}
+{% block content %}
+    <div class="offset-1 col-10 list-div">
+        <h1>Lista de Tarefas</h1>
+        <div class="d-flex flex-row bd-highlight mb-3 mt-4">
+            <a href="newTask/">
+                <div class=" add-div">
+                    <i class="fas fa-plus"></i> Adicionar tarefa
+                </div>
+            </a>
+            <form method="get" class="row form-inline w-75">
+                <div class="col-10">
+                    <input class="form-control" type="text" id="search" name="search"
+                           placeholder="Digite o nome da tarefa para buscar...">
+                </div>
+                <div class="col-2">
+                    <input type="submit" class="btn btn-success" value="Search">
+                </div>
+            </form>
+        </div>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %}class="alert alert-{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <ul class="task-list">
+            {% for task in tasks %}
+                <li class="task-item">
+                    <span><a href="/task/{{ task.id }}">{{ task.title }}</a></span>
+                    <a href="delete/{{ task.id }}"><span><i class="fas fa-trash"></i></span></a>
+                    <a href="edit/{{ task.id }}"><span><i class="fas fa-edit"></i></span></a>
+                </li>
+            {% endfor %}
+        </ul>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item {% if not tasks.has_previous %}disabled{% endif %}">
+                    <a class="page-link" {% if tasks.has_previous %} href="?page={{ tasks.previous_page_number }}" {% endif %} aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><span class="page-link">{{ tasks.number }}</span></li>
+                <li class="page-item {% if not tasks.has_next %}disabled{% endif %}">
+                    <a class="page-link" {% if tasks.has_next %} href="?page={{ tasks.next_page_number }}" {% endif %} aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}

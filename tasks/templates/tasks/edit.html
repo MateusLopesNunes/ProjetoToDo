@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% block title %}Edição dos dados{% endblock %}
+{% block content %}
+     <div class="container">
+        <h1>Editando {{ task.title }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|bootstrap }}
+            <input type="submit" class="btn btn-success mt-2">
+        </form>
+     </div>
+{% endblock %}
